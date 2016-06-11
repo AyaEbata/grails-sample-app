@@ -15,7 +15,7 @@ class TodoSpec extends Specification {
     def cleanup() {
     }
 
-    void "date and description are not blank"() {
+    def "date and description are not blank"() {
         when:
         def test = new Todo(date: '2016/05/05', description: 'test')
 
@@ -23,7 +23,7 @@ class TodoSpec extends Specification {
         test.validate()
     }
 
-    void "date and descriptopn are blank"() {
+    def "date and descriptopn are blank"() {
         setup:
         def test = new Todo(date: date, description: description)
 
@@ -36,7 +36,7 @@ class TodoSpec extends Specification {
         null | null
     }
 
-    void "date is blank"() {
+    def "date is blank"() {
         setup:
         def test = new Todo(date: date, description: description)
 
@@ -49,7 +49,7 @@ class TodoSpec extends Specification {
         null | 'test'
     }
 
-    void "description is blank"() {
+    def "description is blank"() {
         setup:
         def test = new Todo(date: date, description: description)
 

@@ -15,7 +15,7 @@ class HelloControllerSpec extends Specification {
     def cleanup() {
     }
 
-    void "render 'Hello world!'"() {
+    def "render 'Hello world!'"() {
         when:
         controller.index()
 
