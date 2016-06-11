@@ -3,9 +3,9 @@ package grails.sample.app
 import grails.test.mixin.*
 import spock.lang.*
 
-@TestFor(MainController)
-@Mock(Main)
-class MainControllerSpec extends Specification {
+@TestFor(TodoController)
+@Mock(Todo)
+class TodoControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
@@ -21,8 +21,8 @@ class MainControllerSpec extends Specification {
             controller.index()
 
         then:"The model is correct"
-            !model.mainList
-            model.mainCount == 0
+            !model.todoList
+            model.todoCount == 0
     }
 
     void "Test the create action returns the correct model"() {
@@ -30,7 +30,7 @@ class MainControllerSpec extends Specification {
             controller.create()
 
         then:"The model is correctly created"
-            model.main!= null
+            model.todo!= null
     }
 
     void "Test the save action correctly persists an instance"() {
@@ -38,25 +38,25 @@ class MainControllerSpec extends Specification {
         when:"The save action is executed with an invalid instance"
             request.contentType = FORM_CONTENT_TYPE
             request.method = 'POST'
-            def main = new Main()
-            main.validate()
-            controller.save(main)
+            def todo = new Todo()
+            todo.validate()
+            controller.save(todo)
 
         then:"The create view is rendered again with the correct model"
-            model.main!= null
+            model.todo!= null
             view == 'create'
 
         when:"The save action is executed with a valid instance"
             response.reset()
             populateValidParams(params)
-            main = new Main(params)
+            todo = new Todo(params)
 
-            controller.save(main)
+            controller.save(todo)
 
         then:"A redirect is issued to the show action"
-            response.redirectedUrl == '/main/show/1'
+            response.redirectedUrl == '/todo/show/1'
             controller.flash.message != null
-            Main.count() == 1
+            Todo.count() == 1
     }
 
     void "Test that the show action returns the correct model"() {
@@ -68,11 +68,11 @@ class MainControllerSpec extends Specification {
 
         when:"A domain instance is passed to the show action"
             populateValidParams(params)
-            def main = new Main(params)
-            controller.show(main)
+            def todo = new Todo(params)
+            controller.show(todo)
 
         then:"A model is populated containing the domain instance"
-            model.main == main
+            model.todo == todo
     }
 
     void "Test that the edit action returns the correct model"() {
@@ -84,11 +84,11 @@ class MainControllerSpec extends Specification {
 
         when:"A domain instance is passed to the edit action"
             populateValidParams(params)
-            def main = new Main(params)
-            controller.edit(main)
+            def todo = new Todo(params)
+            controller.edit(todo)
 
         then:"A model is populated containing the domain instance"
-            model.main == main
+            model.todo == todo
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
@@ -98,28 +98,28 @@ class MainControllerSpec extends Specification {
             controller.update(null)
 
         then:"A 404 error is returned"
-            response.redirectedUrl == '/main/index'
+            response.redirectedUrl == '/todo/index'
             flash.message != null
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
-            def main = new Main()
-            main.validate()
-            controller.update(main)
+            def todo = new Todo()
+            todo.validate()
+            controller.update(todo)
 
         then:"The edit view is rendered again with the invalid instance"
             view == 'edit'
-            model.main == main
+            model.todo == todo
 
         when:"A valid domain instance is passed to the update action"
             response.reset()
             populateValidParams(params)
-            main = new Main(params).save(flush: true)
-            controller.update(main)
+            todo = new Todo(params).save(flush: true)
+            controller.update(todo)
 
         then:"A redirect is issued to the show action"
-            main != null
-            response.redirectedUrl == "/main/show/$main.id"
+            todo != null
+            response.redirectedUrl == "/todo/show/$todo.id"
             flash.message != null
     }
 
@@ -130,23 +130,23 @@ class MainControllerSpec extends Specification {
             controller.delete(null)
 
         then:"A 404 is returned"
-            response.redirectedUrl == '/main/index'
+            response.redirectedUrl == '/todo/index'
             flash.message != null
 
         when:"A domain instance is created"
             response.reset()
             populateValidParams(params)
-            def main = new Main(params).save(flush: true)
+            def todo = new Todo(params).save(flush: true)
 
         then:"It exists"
-            Main.count() == 1
+            Todo.count() == 1
 
         when:"The domain instance is passed to the delete action"
-            controller.delete(main)
+            controller.delete(todo)
 
         then:"The instance is deleted"
-            Main.count() == 0
-            response.redirectedUrl == '/main/index'
+            Todo.count() == 0
+            response.redirectedUrl == '/todo/index'
             flash.message != null
     }
 }
