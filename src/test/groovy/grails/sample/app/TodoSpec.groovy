@@ -61,4 +61,20 @@ class TodoSpec extends Specification {
         '2016/1/1' | ''
         '2016/1/1' | null
     }
+
+    def "length of description is over maxSize"() {
+        when:
+        def test = new Todo(date: '2016/05/05', description: '012345678901234567890123456789')
+
+        then:
+        !test.validate()
+    }
+
+    def "length of description is maxSize"() {
+        when:
+        def test = new Todo(date: '2016/05/05', description: '01234567890123456789')
+
+        then:
+        test.validate()
+    }
 }
