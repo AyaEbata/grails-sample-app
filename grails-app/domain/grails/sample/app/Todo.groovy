@@ -1,6 +1,6 @@
 package grails.sample.app
 
-class Main {
+class Todo {
 
     String date
     String description
